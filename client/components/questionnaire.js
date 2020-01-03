@@ -1,6 +1,7 @@
 import React, {Component} from 'react'
 import * as Survey from 'survey-react'
 
+//note to self: need to add validation that checks subcategories add up to overall expense
 const surveyJSON = {
   pages: [
     {
@@ -187,8 +188,8 @@ class Questionnaire extends Component {
     this.onCompleteSurvey = this.onCompleteSurvey.bind(this)
   }
 
-  onCompleteSurvey = survey => {
-    console.log(JSON.stringify(survey.data))
+  onCompleteSurvey = () => {
+    const survey = new Survey.Model(surveyJSON)
     console.log(JSON.stringify(survey))
     this.setState({
       isComplete: true
@@ -196,19 +197,16 @@ class Questionnaire extends Component {
   }
 
   render() {
-    const survey = new Survey.Model(surveyJSON)
     const surveyRender = !this.state.isComplete ? (
       <Survey.Survey
         json={surveyJSON}
         showCompletedPage={false}
-        onComplete={() => this.onCompleteSurvey(survey)}
+        onComplete={this.onCompleteSurvey}
       />
     ) : (
       <div>Your questionnaire has been completed</div>
     )
     return (
-      // <Survey.SurveyWindow json={surveyJSON} onComplete={this.sendDataToServer}/>,
-      // document.getElementById("surveyContainer")
       <div id="surveyContainer">
         <link
           href="https://surveyjs.azureedge.net/1.1.29/survey.css"

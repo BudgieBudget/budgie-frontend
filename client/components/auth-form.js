@@ -33,7 +33,7 @@ const AuthForm = props => {
       <a href="/auth/google">{displayName} with Google</a>
       {/* this should link to the start of the questionnaire: */}
       <p />
-      <Link to="/questionnaire">Or try as a guest</Link>
+      <Link to="/questionnaire-page1">Or try as a guest</Link>
     </div>
   )
 }
