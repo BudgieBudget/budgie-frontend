@@ -1,4 +1,5 @@
 import React, {Component} from 'react'
+import SubQuestions from './subcategories-questions'
 
 class Questionnaire1 extends Component {
   constructor(props) {
@@ -6,14 +7,41 @@ class Questionnaire1 extends Component {
     this.handleSubmit = this.handleSubmit.bind(this)
     this.handleChange = this.handleChange.bind(this)
     this.state = {
-      income: '',
-      housing: '',
-      utilities: ''
+      income: {
+        name: 'income',
+        overallMonthly: ''
+      },
+      housing: {
+        name: 'housing',
+        overallMonthly: ''
+      },
+      utilities: {
+        name: 'utilities',
+        overallMonthly: ''
+      },
+      detailedUtilities: [
+        {name: 'electricity', overallMonthly: ''},
+        {name: 'water', overallMonthly: ''},
+        {name: 'sewage', overallMonthly: ''},
+        {name: 'heat', overallMonthly: ''},
+        {name: 'internet', overallMonthly: ''},
+        {name: 'cellPhone', overallMonthly: ''}
+      ]
     }
   }
 
+  // handleChange = event => {
+  //   this.setState({...this.state, [event.target.name]: event.target.value})
+  // }
+
   handleChange = event => {
-    this.setState({...this.state, [event.target.name]: event.target.value})
+    this.setState({
+      ...this.state,
+      [event.target.name]: {
+        name: event.target.name,
+        overallMonthly: event.target.value
+      }
+    })
   }
 
   handleSubmit = event => {
@@ -28,14 +56,14 @@ class Questionnaire1 extends Component {
         questionNumber: 1,
         name: 'income',
         title: 'Please enter your earnings per month',
-        value: this.state.income,
+        value: this.state.income.overallMonthly,
         isRequired: true
       },
       {
         questionNumber: 2,
         name: 'housing',
         title: 'How much do you spend each month on rent/housing?',
-        value: this.state.housing,
+        value: this.state.housing.overallMonthly,
         isRequired: true
       },
       {
@@ -43,8 +71,26 @@ class Questionnaire1 extends Component {
         name: 'utilities',
         title:
           'How much do you spend each month on utilties? (Including electric, gas, water, internet, phone, etc.)',
-        value: this.state.utilities,
-        isRequired: true
+        value: this.state.utilities.overallMonthly,
+        isRequired: true,
+        subcategories: [
+          {
+            name: 'gas'
+            // value: this.state.utilities[0].monthly
+          },
+          {
+            name: 'electric'
+            // value: this.state.utilities[1].monthly
+          },
+          {
+            name: 'water'
+            // value: this.state.utilities[2].monthly
+          },
+          {
+            name: 'internet'
+            // value: this.state.utilities[3].monthly
+          }
+        ]
       }
     ]
     return (
@@ -53,18 +99,25 @@ class Questionnaire1 extends Component {
         <form className="questionnaire-container" onSubmit={this.handleSubmit}>
           {questionnairePage1.map(current => {
             return (
-              <p key={current.questionNumber}>
+              <div key={current.questionNumber}>
                 <label htmlFor={current.name}>
                   Question {current.questionNumber}: {current.title}*
                 </label>
                 <input
                   name={current.name}
-                  type="number"
+                  type="string"
                   value={current.value}
                   onChange={this.handleChange}
                   required
                 />
-              </p>
+                <p />
+                {current.subcategories ? (
+                  <SubQuestions
+                    subcategories={current.subcategories}
+                    onChange={this.handleChange}
+                  />
+                ) : null}
+              </div>
             )
           })}
           <h6>*starred questions are required</h6>
