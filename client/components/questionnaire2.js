@@ -7,61 +7,48 @@ class Questionnaire2 extends Component {
     this.handleSubmit = this.handleSubmit.bind(this)
     this.handleChange = this.handleChange.bind(this)
     this.state = {
-      food: {
-        name: 'food',
+      entertainment: {
+        name: 'entertainment',
         overallMonthly: '',
-        subcategories: [
-          {name: 'groceries', monthly: ''},
-          {name: 'dining', monthly: ''}
-        ]
-      },
-      shopping: {
-        name: 'shopping',
-        overallMonthly: '',
-        subcategories: [
-          {name: 'clothing', monthly: ''},
-          {name: 'electronics', monthly: ''},
-          {name: 'home', monthly: ''}
-        ]
+        subcategories: []
       },
       publicTransit: {
         name: 'publicTransit',
         overallMonthly: '',
-        subcategories: [
-          {name: 'train', monthly: ''},
-          {name: 'bus', monthly: ''}
-        ]
+        subcategories: []
       },
       personalTransport: {
         name: 'personalTransport',
         overallMonthly: '',
-        subcategories: [
-          {name: 'gas', monthly: ''},
-          {name: 'tolls', monthly: ''},
-          {name: 'maintenance', monthly: ''}
-        ]
+        subcategories: []
       }
     }
   }
 
   handleChange = event => {
-    for (let keys in this.state) {
-      if (keys === event.target.name) {
-        this.setState({
-          ...this.state,
-          [event.target.name]: {
-            name: event.target.name,
-            overallMonthly: event.target.value,
-            subcategories: [...event.target.subcategories]
-          }
-        })
+    let stateName = event.target.name // i.e. Public Transportation
+    let newStateName = '' //want to get publicTransportation
+    for (let i = 0; i < stateName.length; i++) {
+      let currentLetter = stateName[i]
+      if (i === 0) {
+        currentLetter = currentLetter.toLowerCase()
+      }
+      if (currentLetter !== ' ') {
+        newStateName += currentLetter
       }
     }
+    this.setState({
+      ...this.state,
+      [newStateName]: {
+        name: event.target.name,
+        overallMonthly: event.target.value
+      }
+    })
   }
 
   handleSubmit = event => {
     event.preventDefault()
-    //this checks to see if the subcategories add up to the overall total:
+    //---this will check to see if the subcategories add up to the overall total---
     // for (let keys in this.state){
     //   let total = Number(keys.overallMonthly)
     //   let check = 0;
@@ -84,52 +71,38 @@ class Questionnaire2 extends Component {
     const questionnairePage2 = [
       {
         questionNumber: 4,
-        name: 'food',
+        name: 'Entertainment',
         title:
-          'How much do you typically spend each month on food? (Including groceries, drinks, and dining out,)',
-        value: this.state.food.overallMonthly,
-        subState: this.state.food.subcategories,
+          'How much do you typically spend each month on entertainment? (Including theater and/or streaming services)',
+        value: this.state.entertainment.overallMonthly,
+        isRequired: true,
         subcategories: [
-          {name: 'groceries', monthly: ''},
-          {name: 'dining', monthly: ''}
+          {name: 'Theater', monthly: ''},
+          {name: 'Streaming Services', monthly: ''}
         ]
       },
       {
         questionNumber: 5,
-        name: 'shopping',
+        name: 'Public Transit',
         title:
-          'How much do you typically spend each month on shopping? (Including clothing, electronics, and home essentials, etc.)',
-        value: this.state.shopping.overallMonthly,
-        subState: this.state.shopping.subcategories,
+          'How much do you spend each month on public transportation? (Including bus, train, and subway)',
+        value: this.state.publicTransit.overallMonthly,
+        isRequired: true,
         subcategories: [
-          {name: 'clothing', monthly: ''},
-          {name: 'electronics', monthly: ''},
-          {name: 'home', monthly: ''}
+          {name: 'Train / Subway', monthly: ''},
+          {name: 'Bus', monthly: ''}
         ]
       },
       {
         questionNumber: 6,
-        name: 'publicTransit',
-        title:
-          'How much do you spend each month on public transportation? (Including bus, train, and subway)',
-        value: this.state.publicTransit.overallMonthly,
-        subState: this.state.publicTransit.subcategories,
-        subcategories: [
-          {name: 'train', monthly: ''},
-          {name: 'bus', monthly: ''}
-        ]
-      },
-      {
-        questionNumber: 7,
-        name: 'personalTransport',
+        name: 'Personal Transport',
         title:
           'How much do you spend each month on personal transportation? (Including gas, maintenance, and tolls)',
         value: this.state.personalTransport.overallMonthly,
-        subState: this.state.personalTransport.subcategories,
         subcategories: [
-          {name: 'gas', monthly: ''},
-          {name: 'tolls', monthly: ''},
-          {name: 'maintenance', monthly: ''}
+          {name: 'Gas', monthly: ''},
+          {name: 'Tolls', monthly: ''},
+          {name: 'Maintenance', monthly: ''}
         ]
       }
     ]

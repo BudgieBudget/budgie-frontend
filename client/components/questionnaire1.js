@@ -7,37 +7,26 @@ class Questionnaire1 extends Component {
     this.handleSubmit = this.handleSubmit.bind(this)
     this.handleChange = this.handleChange.bind(this)
     this.state = {
-      income: {
-        name: 'income',
-        overallMonthly: ''
-      },
-      housing: {
-        name: 'housing',
+      food: {
+        name: 'Food',
         overallMonthly: ''
       },
       utilities: {
-        name: 'utilities',
+        name: 'Utilities',
         overallMonthly: ''
       },
-      detailedUtilities: [
-        {name: 'electricity', overallMonthly: ''},
-        {name: 'water', overallMonthly: ''},
-        {name: 'sewage', overallMonthly: ''},
-        {name: 'heat', overallMonthly: ''},
-        {name: 'internet', overallMonthly: ''},
-        {name: 'cellPhone', overallMonthly: ''}
-      ]
+      shopping: {
+        name: 'Shopping',
+        overallMonthly: ''
+      }
     }
   }
 
-  // handleChange = event => {
-  //   this.setState({...this.state, [event.target.name]: event.target.value})
-  // }
-
   handleChange = event => {
     this.setState({
+      //this works for now but maybe refactor to use this.setState({prevState}) instead of ...this.state
       ...this.state,
-      [event.target.name]: {
+      [event.target.name.toLowerCase()]: {
         name: event.target.name,
         overallMonthly: event.target.value
       }
@@ -54,42 +43,43 @@ class Questionnaire1 extends Component {
     const questionnairePage1 = [
       {
         questionNumber: 1,
-        name: 'income',
-        title: 'Please enter your earnings per month',
-        value: this.state.income.overallMonthly,
-        isRequired: true
+        name: 'Food',
+        title:
+          'How much do you typically spend each month on food? (including groceries, drinks, and dining out,)',
+        value: this.state.food.overallMonthly,
+        isRequired: true,
+        subcategories: [
+          {name: 'Groceries', monthly: ''},
+          {name: 'Dining', monthly: ''}
+        ]
       },
       {
         questionNumber: 2,
-        name: 'housing',
-        title: 'How much do you spend each month on rent/housing?',
-        value: this.state.housing.overallMonthly,
-        isRequired: true
-      },
-      {
-        questionNumber: 3,
-        name: 'utilities',
+        name: 'Utilities',
         title:
-          'How much do you spend each month on utilties? (Including electric, gas, water, internet, phone, etc.)',
+          'How much do you spend each month on utilities? (including electricity, water, gas/heat, sewage, internet, and cell phone)',
         value: this.state.utilities.overallMonthly,
         isRequired: true,
         subcategories: [
-          {
-            name: 'gas'
-            // value: this.state.utilities[0].monthly
-          },
-          {
-            name: 'electric'
-            // value: this.state.utilities[1].monthly
-          },
-          {
-            name: 'water'
-            // value: this.state.utilities[2].monthly
-          },
-          {
-            name: 'internet'
-            // value: this.state.utilities[3].monthly
-          }
+          {name: 'Water', monthly: ''},
+          {name: 'Gas / Heat', monthly: ''},
+          {name: 'Sewage', monthly: ''},
+          {name: 'Electricity', monthly: ''},
+          {name: 'Internet', monthly: ''},
+          {name: 'Cell Phone', monthly: ''}
+        ]
+      },
+      {
+        questionNumber: 3,
+        name: 'Shopping',
+        title:
+          'How much do you typically spend each month on shopping? (including clothing, electronics, and home essentials)',
+        value: this.state.shopping.overallMonthly,
+        isRequired: true,
+        subcategories: [
+          {name: 'Clothing', monthly: ''},
+          {name: 'Electronics', monthly: ''},
+          {name: 'Home', monthly: ''}
         ]
       }
     ]
