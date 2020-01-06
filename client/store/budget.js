@@ -26,12 +26,13 @@ const updateSpendingBudget = updatedBudget => ({
  * THUNK CREATORS
  */
 export const initBudgetThunk = userId => async dispatch => {
+  console.log('User id: ', userId)
   try {
     await axios.post(
-      `https://budgie-budget-app.herokuapp.com/api/budget/${userId}`
+      `https://budgie-budget-server.herokuapp.com/api/budget/${userId}`
     )
     const res = await axios.get(
-      `https://budgie-budget-app.herokuapp.com/api/budget/${userId}`
+      `https://budgie-budget-server.herokuapp.com/api/budget/${userId}`
     )
     dispatch(initBudget(res.data))
   } catch (err) {
@@ -42,7 +43,7 @@ export const initBudgetThunk = userId => async dispatch => {
 export const getBudgetThunk = userId => async dispatch => {
   try {
     const res = await axios.get(
-      `https://budgie-budget-app.herokuapp.com/api/budget/${userId}`
+      `https://budgie-budget-server.herokuapp.com/api/budget/${userId}`
     )
     dispatch(getBudget(res.data))
   } catch (err) {
@@ -58,13 +59,13 @@ export const updateSpendingBudgetThunk = (
 ) => async dispatch => {
   try {
     await axios.put(
-      `https://budgie-budget-app.herokuapp.com/api/budget/${userId}/spending/update`,
+      `https://budgie-budget-server.herokuapp.com/api/budget/${userId}/spending/update`,
       category,
       overallMonthly,
       subcategories
     )
     const res = await axios.get(
-      `https://budgie-budget-app.herokuapp.com/api/budget/${userId}`
+      `https://budgie-budget-server.herokuapp.com/api/budget/${userId}`
     )
     dispatch(updateSpendingBudget(res.data))
   } catch (err) {
