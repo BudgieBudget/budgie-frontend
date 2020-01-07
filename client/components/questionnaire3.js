@@ -1,4 +1,5 @@
 import React, {Component} from 'react'
+import SubQuestions from './subcategories-questions'
 
 class Questionnaire3 extends Component {
   constructor(props) {
@@ -6,15 +7,33 @@ class Questionnaire3 extends Component {
     this.handleSubmit = this.handleSubmit.bind(this)
     this.handleChange = this.handleChange.bind(this)
     this.state = {
-      entertainment: '',
-      health: '',
-      pets: '',
-      miscellaneous: ''
+      health: {
+        name: 'health',
+        overallMonthly: '',
+        subcategories: []
+      },
+      pet: {
+        name: 'pet',
+        overallMonthly: '',
+        subcategories: []
+      },
+      miscellaneous: {
+        name: 'miscellaneous',
+        overallMonthly: '',
+        subcategories: []
+      }
     }
   }
 
   handleChange = event => {
-    this.setState({...this.state, [event.target.name]: event.target.value})
+    this.setState({
+      ...this.state,
+      [event.target.name.toLowerCase()]: {
+        name: event.target.name,
+        overallMonthly: event.target.value,
+        subcategories: []
+      }
+    })
   }
 
   handleSubmit = event => {
@@ -26,36 +45,37 @@ class Questionnaire3 extends Component {
   render() {
     const questionnairePage3 = [
       {
-        questionNumber: 8,
-        name: 'health',
+        questionNumber: 7,
+        name: 'Health',
         title:
           'How much do you typically spend each month on healthcare? (Including medical appointments, insurance. medications, and dental)',
-        value: this.state.health,
-        isRequired: true
+        value: this.state.health.overallMonthly,
+        isRequired: true,
+        subcategories: [
+          {name: 'Medical', monthly: ''},
+          {name: 'Dental', monthly: ''}
+        ]
+      },
+      {
+        questionNumber: 8,
+        name: 'Pet',
+        title:
+          'How much do you spend each month on pets? (including veternary care and food)',
+        value: this.state.pet.overallMonthly,
+        isRequired: true,
+        subcategories: [{name: 'Food', monthly: ''}, {name: 'Vet', monthly: ''}]
       },
       {
         questionNumber: 9,
-        name: 'entertainment',
+        name: 'Miscellaneous',
         title:
-          'How much do you typically spend each month on entertainment? (Including theatre, TV/streaming services, and concerts/festivals)',
-        value: this.state.entertainment,
-        isRequired: true
-      },
-      {
-        questionNumber: 10,
-        name: 'pets',
-        title:
-          'How much do you spend each month on pets? (Including veternary care, food, and supplies)',
-        value: this.state.pets,
-        isRequired: true
-      },
-      {
-        questionNumber: 11,
-        name: 'miscellaneous',
-        title:
-          'How much do you spend each month on other expenses not covered earlier? (Including gym memberships, hobbies, etc.)',
-        value: this.state.miscellaneous,
-        isRequired: true
+          'How much do you spend each month on other expenses not covered earlier? (including gym memberships and/or hobbies)',
+        value: this.state.miscellaneous.overallMonthly,
+        isRequired: true,
+        subcategories: [
+          {name: 'Hobby', monthly: ''},
+          {name: 'Gym', monthly: ''}
+        ]
       }
     ]
     return (
@@ -64,22 +84,29 @@ class Questionnaire3 extends Component {
         <form className="questionnaire-container" onSubmit={this.handleSubmit}>
           {questionnairePage3.map(current => {
             return (
-              <p key={current.questionNumber}>
+              <div key={current.questionNumber}>
                 <label htmlFor={current.name}>
                   Question {current.questionNumber}: {current.title}*
                 </label>
                 <input
                   name={current.name}
-                  type="number"
+                  type="string"
                   value={current.value}
                   onChange={this.handleChange}
                   required
                 />
-              </p>
+                <p />
+                {current.subcategories ? (
+                  <SubQuestions
+                    subcategories={current.subcategories}
+                    onChange={this.handleChange}
+                  />
+                ) : null}
+              </div>
             )
           })}
           <h6>*starred questions are required</h6>
-          <button type="submit">Save and go to next page</button>
+          <button type="submit">Save and go to your summary results</button>
         </form>
       </div>
     )
