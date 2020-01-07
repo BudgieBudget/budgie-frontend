@@ -28,7 +28,8 @@ class Questionnaire1 extends Component {
       ...this.state,
       [event.target.name.toLowerCase()]: {
         name: event.target.name,
-        overallMonthly: event.target.value
+        overallMonthly: event.target.value,
+        subcategories: []
       }
     })
   }

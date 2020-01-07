@@ -30,7 +30,8 @@ class Questionnaire3 extends Component {
       ...this.state,
       [event.target.name.toLowerCase()]: {
         name: event.target.name,
-        overallMonthly: event.target.value
+        overallMonthly: event.target.value,
+        subcategories: []
       }
     })
   }
@@ -89,7 +90,7 @@ class Questionnaire3 extends Component {
                 </label>
                 <input
                   name={current.name}
-                  type="number"
+                  type="string"
                   value={current.value}
                   onChange={this.handleChange}
                   required

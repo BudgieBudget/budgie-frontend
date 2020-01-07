@@ -9,12 +9,6 @@ class SubQuestions extends Component {
     }
   }
 
-  // handleClick = (event) => {
-  //   this.setState({
-  //     isClosed : !this.state.Closed
-  //   })
-  // }
-
   handleClick(event) {
     event.preventDefault()
     this.setState(currentState => ({isClosed: !currentState.isClosed}))
@@ -35,7 +29,7 @@ class SubQuestions extends Component {
                   <label htmlFor={current.name}>{current.name}</label>
                   <input
                     name={current.name}
-                    type="number"
+                    type="string"
                     value={current.monthly}
                     onChange={onChange}
                   />
